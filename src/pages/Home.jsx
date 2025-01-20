@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   Container,
   TextField,
@@ -13,11 +12,12 @@ import {
   FormLabel,
   Typography,
   Box,
-  InputAdornment
+  InputAdornment,
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { Email, Person, LocationCity } from "@mui/icons-material";
+import { useTheme } from "../context/ThemeContext";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -29,9 +29,32 @@ const validationSchema = Yup.object({
 });
 
 const Home = () => {
+  const { theme } = useTheme();
+
+  // Dynamic styles based on theme
+  const inputStyle = {
+    backgroundColor: theme === "dark" ? "#2D3748" : "#fff",
+    color: theme === "dark" ? "#E2E8F0" : "#000",
+    borderRadius: "12px",
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "12px",
+      "& fieldset": {
+        borderColor: theme === "dark" ? "#4A5568" : "#ccc",
+      },
+      "&:hover fieldset": {
+        borderColor: theme === "dark" ? "#A0AEC0" : "#666",
+      },
+    },
+  };
+
   return (
     <Container maxWidth="sm" className="mt-10 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-      <Typography variant="h4" align="center" gutterBottom className="text-black dark:text-white">
+      <Typography
+        variant="h4"
+        align="center"
+        gutterBottom
+        className="text-black dark:text-white"
+      >
         User Registration
       </Typography>
 
@@ -50,7 +73,7 @@ const Home = () => {
       >
         {({ errors, touched, handleChange, values }) => (
           <Form>
-            {/* Name Input with Rounded Corners and Icon */}
+            {/* Name Input */}
             <Field
               as={TextField}
               fullWidth
@@ -69,15 +92,10 @@ const Home = () => {
                   </InputAdornment>
                 ),
               }}
-              sx={{
-                borderRadius: "12px", // Rounded border
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: "12px",
-                },
-              }}
+              sx={inputStyle}
             />
 
-            {/* Email Input with Rounded Corners and Icon */}
+            {/* Email Input */}
             <Field
               as={TextField}
               fullWidth
@@ -97,12 +115,7 @@ const Home = () => {
                   </InputAdornment>
                 ),
               }}
-              sx={{
-                borderRadius: "12px",
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: "12px",
-                },
-              }}
+              sx={inputStyle}
             />
 
             {/* Gender Radio Buttons */}
@@ -120,7 +133,7 @@ const Home = () => {
               </Typography>
             )}
 
-            {/* Select Dropdown with Rounded Corners and Icon */}
+            {/* Select Dropdown */}
             <Field
               as={TextField}
               select
@@ -140,17 +153,12 @@ const Home = () => {
                   </InputAdornment>
                 ),
               }}
-              sx={{
-                borderRadius: "12px",
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: "12px",
-                },
-              }}
+              sx={inputStyle}
             >
-              <MenuItem value="Lahore">New York</MenuItem>
-              <MenuItem value="Karachi">Los Angeles</MenuItem>
-              <MenuItem value="Sailkot">Chicago</MenuItem>
-              <MenuItem value="Daska">Houston</MenuItem>
+              <MenuItem value="New York">New York</MenuItem>
+              <MenuItem value="Los Angeles">Los Angeles</MenuItem>
+              <MenuItem value="Chicago">Chicago</MenuItem>
+              <MenuItem value="Houston">Houston</MenuItem>
             </Field>
 
             {/* Checkbox */}
@@ -180,4 +188,3 @@ const Home = () => {
 };
 
 export default Home;
-//npm i @emotion/react @emotion/styled
